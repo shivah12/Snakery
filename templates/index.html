@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <!-- Include Bootstrap for styling (optional) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            align-items: center;
+            justify-content: center;
+            background-image: url("/static/bg.jpg"); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            color: aliceblue;
+        }
+        .container {
+            text-align: center;
+        }
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: #fdfcfc;
+            font-size: small;
+            background-color: #c9c9c90f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col text-center">
+                <h1 style="font-weight: bold;">Snake Game</h1>
+                <h3 style="font-size: medium;">Developed using Pygame with Flask as backend</h3>
+                <h2 style="font-size: small;">Enjoy playing the game!</h2>
+
+                <button id="startButton" class="btn btn-primary" style="margin: 10px;" onclick="startGame()">Start Game</button>
+                <canvas id="gameCanvas" width="800" height="600" style="display: none;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <footer>If facing any issue with starting the game after quitting once then kindly refresh and try again!</footer>
+
+    <!-- Script to handle game start and play -->
+    <script>
+        function startGame() {
+            fetch('/start-game')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to start game');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Game started successfully:', data);
+                    document.getElementById('startButton').style.display = 'none';
+                    document.getElementById('gameCanvas').style.display = 'block';
+                    startGameLoop();
+                })
+                .catch(error => console.error('Error starting game:', error));
+        }
+
+        function startGameLoop() {
+            // Example game loop function
+            let canvas = document.getElementById('gameCanvas');
+            let ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Add your game logic here
+        }
+    </script>
+
+    <!-- Optional: Include Bootstrap JavaScript for additional functionality -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
